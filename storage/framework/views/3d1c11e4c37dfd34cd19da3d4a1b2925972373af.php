@@ -1,0 +1,1 @@
+<?php echo Html::style('/public/assets/vendors/custom/datatables/datatables.bundle.css'); ?><?php /**PATH /home/qdegrees/public_html/idfc/audit_online/resources/views/shared/table_css.blade.php ENDPATH**/ ?>

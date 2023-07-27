@@ -1,0 +1,1 @@
+{!! Html::style('/public/assets/vendors/custom/datatables/datatables.bundle.css') !!}
