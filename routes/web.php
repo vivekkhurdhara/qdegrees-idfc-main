@@ -94,77 +94,10 @@
 
 
 Route::get('/', function () {
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // return view('welcome');
-
-
-
-
-
-
-
-    return view('auth.login');
-
-
-
-
-
-
-
-});
-
-
-
-
-
-
-
+    return view('auth.login');});
 Route::get('/form', function () {
-
-
-
-
-
-
-
-    // return view('welcome');
-
-
-
-
-
-
-
     dd(route('action.index'));
-
-
-
-
-
-
-
     return view('form');
-
-
-
-
-
-
-
 });
 
 
@@ -257,6 +190,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('yard', 'YardController');
     Route::resource('agency', 'AgencyController');
     Route::resource('branch', 'BranchController');
+    Route::get('location/city_view', 'LocationController@cityView')->name('location.city_view');
     Route::resource('location', 'LocationController');
     Route::post('location/update','LocationController@update');
     Route::get('create-audit-cycle', 'AuditController@createCycle')->name('createCycle');
@@ -305,7 +239,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::get('get_branch_detail_qc/{id}/{type}/{auditid}/{product_id}','AuditController@renderBranchQc');
     Route::get('get_product/{id}/{type}','AuditController@getProduct');
     Route::get('audit_sheet/{qm_sheet_id}/edit','AuditController@render_audit_sheet_edit');
-    // added by nisha 
+    // added by nisha
     Route::get('get_agencies/{id}','BeatPlanController@getBranchWiseAgencies');
     //QC
     Route::get('audit_detail/{qm_sheet_id}/edit','AuditController@detail_audit_sheet_edit');

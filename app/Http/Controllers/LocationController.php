@@ -47,13 +47,23 @@ class LocationController extends Controller
 
         // $users = User::role('Collection Manager')->get(['id', 'name']);
 
-       
+
         return view('location.create1', compact('regions')
 
         );
     }
 
+    public function cityView()
 
+    {
+       $cities = DB::table("cities")->where('status',0)->get();
+        // $users = User::role('Collection Manager')->get(['id', 'name']);
+
+
+        return view('location.city_view', compact('cities')
+
+        );
+    }
 
     /**
 
@@ -72,14 +82,14 @@ class LocationController extends Controller
 
         // $users = User::role('Collection Manager')->get(['id', 'name']);
 
-       
+
         return view('location.create', compact('regions')
 
         );
 
     }
 
-    
+
     /**
 
      * Store a newly created resource in storage.
@@ -113,7 +123,7 @@ class LocationController extends Controller
             return redirect()->back()->with('error', [$validator->errors()->all()])->withInput();
 
         } else {
-            
+
             $city = City::create(
 
                     ['name' => $request->city,
@@ -138,7 +148,7 @@ class LocationController extends Controller
 
     }
 
-    
+
 
 
 
@@ -160,7 +170,7 @@ class LocationController extends Controller
             return redirect()->back()->with('error', [$validator->errors()->all()])->withInput();
 
         } else {
-            
+
             $state = State::create(
 
                     ['name' => $request->state,

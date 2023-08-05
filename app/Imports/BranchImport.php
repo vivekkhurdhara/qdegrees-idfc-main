@@ -29,32 +29,40 @@ use Illuminate\Validation\Rule;
 // class UsersImport implements ToModel,WithChunkReading, WithHeadingRow, WithValidation,WithBatchInserts, ShouldQueue
 class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
 {
-    
+
     use Importable;
     private $errors = [];
-    // private $data; 
+    // private $data;
 
     // public function __construct(array $data = [])
     // {
-    //     $this->roles = $data; 
+    //     $this->roles = $data;
     // }
     /**
     * @param array $row
     *
     * @return \Illuminate\Database\Eloquent\Model|null
     */
+    public function getErrors()
+    {
+        return $this->errors;
+    }
     public function model(array $row)
     {
-    //    dd($row);
+    //    dd($row["city"]);
         /* echo "hii";
         die; */
         $city=City::where('name',$row['city'])->first();
         $datauser=$this->createUser($row);
         //dd($datauser['Quality_Auditor']->id);
         $auditor_id = User::where('email', $row['auditor_email_id'])->get()->pluck('id');
-        
         $product=Products::updateOrCreate(['name'=>$row['product_name']],['name'=>$row['product_name'],'bucket'=>$row['bucket'],'type'=>0]);
-        
+// if($row["city"] != $city->name){
+// }
+// else{
+//     $this->errors[] = "Branch name is not match.";
+//     return;
+// }
         $branch=Branch::updateOrCreate(['name'=>$row['branch_name'],
             'lob'=>$row['lob']],[
 
@@ -113,7 +121,7 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
             {
                 $data=Branchable::where('id',$product_user->id)->update(['auditor_id'=>$item['auditor_id']]);
             }
-        
+
        }
        if($row['agency_name'] != 'NA'){
             $agency=Agency::updateOrCreate(
@@ -127,7 +135,7 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
                 'location'=>$row['agency_location'] ?? '',
                 'address'=>$row['agency_address'] ?? '',
                 'product_id'=>$product->id
-                
+
             ]);
             }
             if($row['yard_name'] != 'NA'){
@@ -148,7 +156,7 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
                     'product_id'=>$product->id
                 ]);
             }
-        
+
         if($row['branch_repo'] != 'NA'){
             BranchRepo::updateOrCreate([
                 'branch_id'=>$branch->id,
@@ -188,11 +196,16 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
                 ]);
         }
         return $branch;
-        
+
     }
+    public function getRedirectRoute()
+{
+    // Your logic here to determine the intended route or URL
+    return route('bulkUpload.index'); // or return '/your/url';
+}
     public function createUser($row){
         $datauser=[];
-        if($row['collection_manger'] != 'NA' && $row['cm_email_id'] != 'NA'){    
+        if($row['collection_manger'] != 'NA' && $row['cm_email_id'] != 'NA'){
             $datauser[]= [
                     'user'=>['name'=>$row['collection_manger'],'email'=>$row['cm_email_id'],'password'=>Hash::make($row['cm_email_id']),'employee_id'=>($row['cm_emp_code']!= 'NA'?$row['cm_emp_code']:null),'mobile'=>($row['cm_mobile_number']!= 'NA'?$row['cm_mobile_number']:null)],
                     'role'=>['Collection Manager'],
@@ -229,15 +242,15 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
             ];
         }
 
-        
-        
+
+
         // dd($datauser);
         foreach ($datauser as $key => $value) {
             // dd(str_replace(' ','_',$value['role'][0]));
             $role_r = Role::whereIn('name', $value['role'])->get()->pluck('name');
             $user=User::updateOrCreate(['email'=>$value['user']['email']],$value['user'])->assignRole($role_r);
-            
-            
+
+
             $data[str_replace(' ','_',$value['role'][0])]=$user;
             // dd($data);
         }

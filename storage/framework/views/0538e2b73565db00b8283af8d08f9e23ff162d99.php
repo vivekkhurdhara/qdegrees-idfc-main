@@ -1,32 +1,38 @@
-@extends('layouts.loginapp')
-
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="sufee-login d-flex align-content-center flex-wrap">
         <div class="container">
             <div class="login-content">
                 <div class="login-logo">
                     <a href="index.html">
-                        <img class="align-content" src="{{URL::asset('images/logo.png.jpg')}}" alt="">
+                        <img class="align-content" src="<?php echo e(URL::asset('images/logo.png.jpg')); ?>" alt="">
                     </a>
                 </div>
                 <div class="login-form">
-                    <form method="POST" action="{{ route('login') }}">
-                        @csrf
+                    <form method="POST" action="<?php echo e(route('login')); ?>">
+                        <?php echo csrf_field(); ?>
                         <div class="form-group">
                             <label>Email address</label>
-                            <input type="email" class="form-control @error('email') is-invalid @enderror" placeholder="Email" name="email" value="{{ old('email') }}" required autocomplete="email" autofocus>
+                            <input type="email" class="form-control <?php if ($errors->has('email')) :
+if (isset($message)) { $messageCache = $message; }
+$message = $errors->first('email'); ?> is-invalid <?php unset($message);
+if (isset($messageCache)) { $message = $messageCache; }
+endif; ?>" placeholder="Email" name="email" value="<?php echo e(old('email')); ?>" required autocomplete="email" autofocus>
                         </div>
                         <div class="form-group">
                             <label>Password</label>
-                            <input type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="current-password" placeholder="Password">
+                            <input type="password" class="form-control <?php if ($errors->has('password')) :
+if (isset($message)) { $messageCache = $message; }
+$message = $errors->first('password'); ?> is-invalid <?php unset($message);
+if (isset($messageCache)) { $message = $messageCache; }
+endif; ?>" name="password" required autocomplete="current-password" placeholder="Password">
                         </div>
                         <div class="checkbox">
                             <label>
                                 <input type="checkbox"> Remember Me
                             </label>
                             <label class="pull-right">
-                                <a href="{{ route('password.request') }}">Forgotten Password?</a>
+                                <a href="<?php echo e(route('password.request')); ?>">Forgotten Password?</a>
                             </label>
 
                         </div>
@@ -45,4 +51,6 @@
             </div>
         </div>
     </div>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.loginapp', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\idfc\resources\views/auth/login.blade.php ENDPATH**/ ?>

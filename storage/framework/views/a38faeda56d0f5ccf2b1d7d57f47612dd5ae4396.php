@@ -1,12 +1,10 @@
-@extends('layouts.master')
+<?php $__env->startSection('title', '| Agency'); ?>
 
-@section('title', '| Agency')
-
-<!-- @section('sh-detail')
+<!-- <?php $__env->startSection('sh-detail'); ?>
 Users
-@endsection -->
+<?php $__env->stopSection(); ?> -->
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 <div class="row">
 		<div class="col-lg-12" style="margin-top:10x">
 		</div>
@@ -17,7 +15,7 @@ Users
 			<div class="card">
 				<div class="card-header">
 					<strong class="card-title">Agency List</strong>
-					<a class="btn btn-primary btn-sm float-right" style="margin-right: 5px" href="{{route('excelDownloadAgency')}}" target="_blank">Export Agency</a>
+					<a class="btn btn-primary btn-sm float-right" style="margin-right: 5px" href="<?php echo e(route('excelDownloadAgency')); ?>" target="_blank">Export Agency</a>
 				</div>
 				<div class="card-body">
 					<table class="table table-striped- table-bordered table-hover table-checkable" id="kt_table_1">
@@ -49,38 +47,41 @@ Users
 							</tr>
 						</thead>
 						<tbody>
-							@foreach($data as $k=>$row)
+							<?php $__currentLoopData = $data; $__env->addLoop($__currentLoopData); foreach($__currentLoopData as $k=>$row): $__env->incrementLoopIndices(); $loop = $__env->getLastLoop(); ?>
 							<tr scope="row">
-								<td>{{$k+1}}</td>
+								<td><?php echo e($k+1); ?></td>
 								<td>
-									{{$row->name}}
+									<?php echo e($row->name); ?>
+
 								</td>
 								<td>
-									{{ isset($row->branch)?$row->branch->name:''}}
+									<?php echo e(isset($row->branch)?$row->branch->name:''); ?>
+
                                 </td>
-								<td>{{$row->agency_id}}</td>
-								<td>{{$row->agency_manager}}</td>
-								<td>{{ $row->location  }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
-								<td>{{ $row->addresss  }}</td>{{-- Retrieve array of roles associated to a user and convert to string --}}
+								<td><?php echo e($row->agency_id); ?></td>
+								<td><?php echo e($row->agency_manager); ?></td>
+								<td><?php echo e($row->location); ?></td>
+								<td><?php echo e($row->addresss); ?></td>
 
 								<td nowrap>
 									<!-- <div style="display: flex;">
-										{{Form::open([ 'method'  => 'delete', 'route' => [ 'user.destroy', Crypt::encrypt($row->id) ],'onsubmit'=>"delete_confirm()"])}}
+										<?php echo e(Form::open([ 'method'  => 'delete', 'route' => [ 'user.destroy', Crypt::encrypt($row->id) ],'onsubmit'=>"delete_confirm()"])); ?>
+
 										<button class="btn btn-sm btn-clean btn-icon btn-icon-md" title="View">
 											<i class="la la-trash"></i>
 										</button>
 									</form> -->
-									<a href="{{url('agency/'.Crypt::encrypt($row->id).'/edit')}}" class="btn btn-xs btn-info" title="View">
+									<a href="<?php echo e(url('agency/'.Crypt::encrypt($row->id).'/edit')); ?>" class="btn btn-xs btn-info" title="View">
 										<i class="fa fa-edit"></i>
                                     </a>
-                                    <a href="{{url('agency/'.Crypt::encrypt($row->id))}}" class="btn btn-xs btn-danger" title="View">
+                                    <a href="<?php echo e(url('agency/'.Crypt::encrypt($row->id))); ?>" class="btn btn-xs btn-danger" title="View">
 										<i class="fa fa-trash"></i>
 									</a>
 
 									<!-- </div> -->
 								</td>
 							</tr>
-							@endforeach
+							<?php endforeach; $__env->popLoop(); $loop = $__env->getLastLoop(); ?>
 						</tbody>
 					</table>
 				</div>
@@ -88,12 +89,12 @@ Users
 		</div>
 	</div>
 </div>
-@endsection
-@section('css')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('css'); ?>
 <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
 <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.2/css/buttons.dataTables.min.css">
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
 <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
 <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
 <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
@@ -107,4 +108,6 @@ jQuery(document).on('ready',function(){
 
 })
 </script>
-@endsection
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\idfc\resources\views/agency/list.blade.php ENDPATH**/ ?>
