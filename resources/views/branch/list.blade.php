@@ -140,6 +140,11 @@
                                             <i class="fa fa-edit"></i>
 
                                         </a>
+                                        <a href="{{url('branch/'.Crypt::encrypt($row->id))}}" class="btn btn-xs btn-danger" title="Delete">
+
+                                            <i class="fa fa-trash"></i>
+
+                                        </a>
 
 
 

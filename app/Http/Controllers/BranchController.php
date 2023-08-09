@@ -23,7 +23,7 @@ class BranchController extends Controller
      */
     public function index()
     {
-        $data = Branch::with('city')->get();
+        $data = Branch::with('city')->where('status',0)->orderBy('name', 'ASC')->get();
         return view('branch.list', compact('data'));
     }
 
@@ -137,7 +137,8 @@ class BranchController extends Controller
      */
     public function show($id)
     {
-        $data = Branch::where('id', Crypt::decrypt($id))->delete();
+        // $data = Branch::where('id', Crypt::decrypt($id))->delete();
+    $data=Branch::where('id',Crypt::decrypt($id))->update(['status'=>1]);
         if ($data) {
             return redirect()->route('branch.index')->with('success', ['Branch deleted successfully.']);
         } else {
@@ -205,7 +206,7 @@ class BranchController extends Controller
                 ]
             );
             if ($branch) {
-                    
+
                 $i=1;
             $data=[];
             $data[]=['branch_id'=>Crypt::decrypt($id),'product_id'=>$request['product_id'],'manager_id'=>$request['manager_id'],'type'=>'manager'];

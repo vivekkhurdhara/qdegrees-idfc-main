@@ -49,10 +49,11 @@ class BranchImport implements ToModel, WithHeadingRow,WithChunkReading
     }
     public function model(array $row)
     {
-    //    dd($row["city"]);
+    //    dd($row);
         /* echo "hii";
         die; */
         $city=City::where('name',$row['city'])->first();
+        // dd($city);
         $datauser=$this->createUser($row);
         //dd($datauser['Quality_Auditor']->id);
         $auditor_id = User::where('email', $row['auditor_email_id'])->get()->pluck('id');

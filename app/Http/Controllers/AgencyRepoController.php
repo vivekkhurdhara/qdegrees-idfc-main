@@ -52,7 +52,6 @@ class AgencyRepoController extends Controller
         ]);
 
         if ($validator->fails()) {
-
             return redirect()->back()->with('error', [$validator->errors()->all()])->withInput();
         } else {
             $data=AgencyRepo::Create(
