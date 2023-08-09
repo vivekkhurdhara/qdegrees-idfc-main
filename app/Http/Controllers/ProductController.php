@@ -22,7 +22,7 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $product=Products::all();
+        $product=Products::where('status',0)->latest()->get();
         // dd($product);
         return view('product.list',compact('product'));
     }
@@ -77,7 +77,8 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-        $data = Products::where('id', Crypt::decrypt($id))->delete();
+        // $data = Products::where('id', Crypt::decrypt($id))->delete();
+        $data = Products::where('id', Crypt::decrypt($id))->update(['status'=>1]);
         if ($data) {
             return redirect()->route('product.index')->with('success', ['Product deleted successfully.']);
         } else {
@@ -94,7 +95,7 @@ class ProductController extends Controller
     public function edit($id)
     {
         $data=Products::find(Crypt::decrypt($id));
-        return view('product.edit', 
+        return view('product.edit',
         compact('data'));
     }
 
@@ -249,7 +250,7 @@ class ProductController extends Controller
         $productUser=[];
         foreach ($data as $key => $value) {
             if($value->branch!=null){
-                $productUser[$value->branch->name ?? $value->branch_id][$value->product->name ?? $value->product_id][$value->type]=$value; 
+                $productUser[$value->branch->name ?? $value->branch_id][$value->product->name ?? $value->product_id][$value->type]=$value;
             }
         }
         // dd($productUser,$productUserType);
@@ -266,7 +267,7 @@ class ProductController extends Controller
         $pid=$product->id;
         foreach ($data as $key => $value) {
             if($value->branch!=null){
-                $productUser[$value->type]=$value->manager_id; 
+                $productUser[$value->type]=$value->manager_id;
             }
         }
         $branch=Branch::all(['id','name']);
