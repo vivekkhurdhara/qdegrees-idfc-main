@@ -66,9 +66,7 @@ Users
 								<td><?php echo e($k+1); ?></td>
 
 								<td>
-
 									<?php echo e($row->name); ?>
-
 
 								</td>
 								<td nowrap>

@@ -112,14 +112,14 @@ class AuditController extends Controller
 
 {
 
-    
+
     public function sendTestMail($val) {
-        
+
         // $email=array("abhilasha.kenge@qdegrees.com");
         // $subject="Qdegrees Test Mail";
         // $data=array();
         // Mail::send('audit.test_mail',["data1"=>$data], function ($message) use($email,$subject){
-        //     $message->from('noreply@qdegrees.com', 'IDFC FIRST Bank')->to($email)->subject($subject); 
+        //     $message->from('noreply@qdegrees.com', 'IDFC FIRST Bank')->to($email)->subject($subject);
         // });
         // echo "mail sent";
         // die;
@@ -128,9 +128,9 @@ class AuditController extends Controller
         $audit_data=AuditResult::with('parameter_detail','sub_parameter_detail')->where(["audit_id"=>$val,"is_alert"=>1])->get();
         //echo "jdfjd"; die;
         $branchables=Branchable::with('acm','rcm')->where(['branch_id'=>$audit->parent_branch_id,'product_id'=>$audit->product_id,'manager_id'=>$audit->branchnew->manager_id])->first();
-        
+
         $nameAudit="";
-        
+
         $tl_email="";
         //North
         if($audit->branchnew->city && $audit->branchnew->city->state && $audit->branchnew->city->state->region && $audit->branchnew->city->state->region->id == 1) {
@@ -148,7 +148,7 @@ class AuditController extends Controller
         if($audit->branchnew->city && $audit->branchnew->city->state && $audit->branchnew->city->state->region && $audit->branchnew->city->state->region->id == 4) {
              $tl_email="niteshramniwaskashyap@qdegrees.com";
         }
-									    
+
 	    if($audit->branchRepo && $audit->branchRepo->name != "" && !is_null($audit->branchRepo->name)) {
 	        $nameAudit=$audit->branchRepo->name;
 	    }
@@ -164,43 +164,43 @@ class AuditController extends Controller
 	    else {
 	        $nameAudit=$audit->branchnew->name;
 	    }
-		
+
 // 		$email=array('abhishek.gupta@qdegrees.com','abhilasha.kenge@qdegrees.com');
-        
+
 //         $cc=array('ritendra.soni@qdegrees.com');
-        
+
 //         $bcc=array('devendra.saini@qdegrees.com');
-        
+
         $email=array();
-        
+
         $cc=array();
-        
+
         $bcc=array('abhishek.gupta@qdegrees.com','ritendra.soni@qdegrees.com','devendra.saini@qdegrees.com','abhilasha.kenge@qdegrees.com');
-        
+
         if($audit->collectionManagerData->email != "") {
             $email[]=$audit->collectionManagerData->email;
         }
-        
+
         if($audit->qa_qtl_detail->email != "") {
             $email[]=$audit->qa_qtl_detail->email;
         }
-        
+
         if($branchables && $branchables->acm && $branchables->acm->email != "") {
             $cc[]=$branchables->acm->email;
         }
         if($branchables && $branchables->rcm && $branchables->rcm->email != "") {
             $cc[]=$branchables->rcm->email;
         }
-        
+
         if($tl_email != "") {
             $cc[]=$tl_email;
         }
-       
-        
-        
-        $newDate = date("m/Y", strtotime($audit->audit_date_by_aud));  
+
+
+
+        $newDate = date("m/Y", strtotime($audit->audit_date_by_aud));
         $subject=$audit->branchnew->name."_".$audit->qmsheet->type."_".$nameAudit."_".$audit->collectionManagerData->name."_".$audit->productnew->name."_".$newDate;
-        
+
          /* $email=array("devendra.saini@qdegrees.com","abhishek.gupta@qdegrees.com");
          $cc=array("shailendra.kumar@qdegrees.com","sb@qdegees.com");
          $bcc=array("abhishek.gupta@qdegrees.com");
@@ -211,25 +211,21 @@ class AuditController extends Controller
          $bcc=array("shailendra1994@hotmail.com");
 
         Mail::send('audit.test_mail',["audit"=>$audit,"audit_data"=>$audit_data], function ($message) use($email,$cc,$bcc,$subject){
-            $message->from('idfc-audit@qdegrees.org', 'IDFC FIRST Bank Test Mail')->to($email)->cc($cc)->bcc($bcc)->subject($subject); 
+            $message->from('idfc-audit@qdegrees.org', 'IDFC FIRST Bank Test Mail')->to($email)->cc($cc)->bcc($bcc)->subject($subject);
         });
-        
+
         return "mail sent";
-        
-        
+
+
         //return view("audit.test_mail",compact('audit','audit_data'));
     }
 
     public function render_audit_sheet($qm_sheet_id)
 
     {
-
         //dd(all_non_scoring_obs_options(1));
-
-
-
         $data = QmSheet::with('parameter.qm_sheet_sub_parameter')->find(Crypt::decrypt($qm_sheet_id));
-        
+
         $cycle=AuditCycle::orderBy('id','desc')->limit(3)->get();
 
         // $branch=Branch::all();
@@ -267,7 +263,7 @@ class AuditController extends Controller
         // return view('audit.render_sheet',compact('qm_sheet_id','data','branch'));
 
     }
-    
+
     public function render_audit_sheet_new($qm_sheet_id)
 
     {
@@ -277,7 +273,7 @@ class AuditController extends Controller
 
 
         $data = QmSheet::with('parameter.qm_sheet_sub_parameter')->find(Crypt::decrypt($qm_sheet_id));
-        
+
         $cycle=AuditCycle::orderBy('id','desc')->limit(3)->get();
 
         // $branch=Branch::all();
@@ -358,7 +354,7 @@ class AuditController extends Controller
 
             $branchable=Products::whereIn('id',array_unique($productIds))->get();
 
-        } 
+        }
 
         else if($type=='branch_repo'){
 
@@ -368,7 +364,7 @@ class AuditController extends Controller
 
             $branchable=Products::whereIn('id',array_unique($productIds))->get();
 
-        } 
+        }
 
         else if($type=='agency_repo'){
 
@@ -378,7 +374,7 @@ class AuditController extends Controller
 
             $branchable=Products::whereIn('id',array_unique($productIds))->get();
 
-        } 
+        }
 
         return response()->json(['data'=>$branchable]);
 
@@ -401,13 +397,13 @@ class AuditController extends Controller
             $branchable=Branch::with(['branchable'=>function($q) use($product_id){
 
 
-            
+
               //  $q->where('product_id',$product_id);
               // following code done by Amit Pareek
               //$q->where('product_id',$product_id)->latest();
-              $q->where('product_id',$product_id)->orderBy('id','DESC');  
+              $q->where('product_id',$product_id)->orderBy('id','DESC');
             },'city','branchable.ncm','branchable.rcm','branchable.ghead','branchable.zcm','branchable.acm'])->where('id',$id)->first();
-            
+
         }
 
         else if($type=='agency'){
@@ -419,7 +415,7 @@ class AuditController extends Controller
                // $q->where('product_id',$product_id);
 
                //$q->where('product_id',$product_id)->latest();
-                $q->where('product_id',$product_id)->orderBy('id','DESC');  
+                $q->where('product_id',$product_id)->orderBy('id','DESC');
 
             },'city','branchable.ncm','branchable.rcm','branchable.ghead','branchable.zcm','branchable.acm'])->where('id',$agency->branch_id)->first();
 
@@ -436,7 +432,7 @@ class AuditController extends Controller
                // $q->where('product_id',$product_id);
 
                 //$q->where('product_id',$product_id)->latest();
-              $q->where('product_id',$product_id)->orderBy('id','DESC');  
+              $q->where('product_id',$product_id)->orderBy('id','DESC');
 
 
             },'city','branchable.ncm','branchable.rcm','branchable.ghead','branchable.zcm','branchable.acm'])->where('id',$yard->branch_id)->first();
@@ -452,7 +448,7 @@ class AuditController extends Controller
               //  $q->where('product_id',$product_id);
 
              //$q->where('product_id',$product_id)->latest();
-                  $q->where('product_id',$product_id)->orderBy('id','DESC');  
+                  $q->where('product_id',$product_id)->orderBy('id','DESC');
 
             },'city','branchable.ncm','branchable.rcm','branchable.ghead','branchable.zcm','branchable.acm'])->where('id',$BranchRepo->branch_id)->first();
 
@@ -467,7 +463,7 @@ class AuditController extends Controller
               //  $q->where('product_id',$product_id);
 
                 //$q->where('product_id',$product_id)->latest();
-                  $q->where('product_id',$product_id)->orderBy('id','DESC');  
+                  $q->where('product_id',$product_id)->orderBy('id','DESC');
 
             },'city','branchable.ncm','branchable.rcm','branchable.ghead','branchable.zcm','branchable.acm'])->where('id',$AgencyRepo->branch_id)->first();
 
@@ -590,7 +586,7 @@ class AuditController extends Controller
 
         $artifactIds = Artifact::where('audit_id',$result->id)->get()->pluck('id')->toArray();
 
-        
+
 
         $redalertIds = RedAlert::where('audit_id',$result->id)->get()->pluck('sub_parameter_id')->toArray();
 
@@ -610,7 +606,7 @@ class AuditController extends Controller
 
         $result=Audit::with(['audit_parameter_result','audit_results'])->where('id',Crypt::decrypt($qm_sheet_id))->first();
 
-	//dd($result->id);        
+	//dd($result->id);
 $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('parameter_id');
 
         $resultSubPar=AuditResult::where('audit_id',$result->id)->get()->keyBy('sub_parameter_id');
@@ -635,7 +631,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
     	return view('audit.view_sheet',compact('qm_sheet_id','data','result','resultPar','resultSubPar','branch','agency','yard','branchRepo','agencyRepo','artifactIds','redalertIds'));
 
-    
+
 
     }
 
@@ -673,7 +669,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
     	return view('audit.view_sheet_qc',compact('qm_sheet_id','data','result','resultPar','resultSubPar','branch','agency','yard','branchRepo','agencyRepo','qc','artifactIds','redalertIds'));
 
-    
+
 
     }
 
@@ -705,18 +701,18 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         $agencyRepo=AgencyRepo::whereIn('branch_id',$branch->pluck('id'))->get();
 
         $products=Products::get();
-        
+
         $artifactIds = Artifact::where('audit_id',$result->id)->get()->pluck('id')->toArray();
 
         $qc=Qc::where('audit_id',$result->id)->first();
 
-        
+
 
         $redalertIds = RedAlert::where('audit_id',$result->id)->get()->pluck('sub_parameter_id')->toArray();
 
         // dd($data,$resultPar,$resultSubPar);
 
-        
+
 
         $preview_redalert = DB::table('qm_sheet_parameters as parameter')
 
@@ -729,7 +725,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         ->where('ra.audit_id',$result->id)
 
         ->get()->toArray();
-        
+
 
     	return view('audit.detail_sheet_edit',compact('qm_sheet_id','data','result','resultPar','resultSubPar','branch','agency','yard','branchRepo','agencyRepo','artifactIds','qc','redalertIds','preview_redalert','products'));
 
@@ -744,8 +740,8 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             SavedQcAudit::updateOrCreate(['audit_id'=>$request->audit_id],['audit_id'=>$request->audit_id,'status'=>1]);
 
         }
-        
-       
+
+
         else if($request->type=='submit' || $request->type=='savebyqc'){
 
             SavedQcAudit::where(['audit_id'=>$request->audit_id])->delete();
@@ -1000,7 +996,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                 if($value_p->is_non_scoring)
 
-                {   
+                {
 
                     //total weight
 
@@ -1008,7 +1004,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                     if($value_s->non_scoring_option_group)
 
-                    {                  
+                    {
 
                         foreach (all_non_scoring_obs_options($value_s->non_scoring_option_group) as $key_ns => $value_ns) {
 
@@ -1026,7 +1022,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
 
 
-                    
+
 
                 }else
 
@@ -1050,7 +1046,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                     if($value_s->pass)
 
-                    { 
+                    {
 
                         if($value_s->pass_alert_box_id)
 
@@ -1094,7 +1090,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                             foreach ($temp_r_fail as $keycc => $valuecc) {
 
-                                $all_reason_type_fail[] = ["key"=>$value_p->id."_".$value_s->id."_".$keycc,"value"=>$valuecc]; 
+                                $all_reason_type_fail[] = ["key"=>$value_p->id."_".$value_s->id."_".$keycc,"value"=>$valuecc];
 
                             }
 
@@ -1142,7 +1138,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                             foreach ($temp_cric as $keycc => $valuecc) {
 
-                                $all_reason_type_cric[] = ["key"=>$value_p->id."_".$value_s->id."_".$keycc,"value"=>$valuecc]; 
+                                $all_reason_type_cric[] = ["key"=>$value_p->id."_".$value_s->id."_".$keycc,"value"=>$valuecc];
 
                             }
 
@@ -1194,7 +1190,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                     if($value_s->pwd)
 
-                     {  
+                     {
 
                         if($value_s->pwd_alert_box_id)
 
@@ -1246,11 +1242,11 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
             $pds[$value_p->id]['parameter_weight'] = $total_parameter_weight;
 
-            
+
 
         }
 
-        
+
 
         $final_data['simple_data'] = $pds;
 
@@ -1294,14 +1290,14 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
     	}
 
-    	
+
 
     }
 
     public function audited_list(Request $request)
 
     {
-        
+
         // die('Under Maintenance');
         $savedQcIds=SavedQcAudit::all()->pluck('audit_id')->toArray();
 
@@ -1311,18 +1307,18 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
         if($ids->count()>0){
             if(isset($request->search)){
-                
+
                /*  echo "in";
                 die; */
                 $data = Audit::with(['qmsheet','product','branch.city.state','branch.branchable','yard.branch.city.state','agency.branch.city.state','qa_qtl_detail','user','branchRepo.branch.city.state','agencyRepo.branch.city.state'])->withCount('artifact')->whereNotIn('id',$ids->pluck('audit_id'))->whereNotIn('id',$savedIds)
-                
+
                 ->orderby('id','desc')->paginate(10);
             } else {
                 $data = Audit::with(['qmsheet','product','branch.city.state','branch.branchable','yard.branch.city.state','agency.branch.city.state','qa_qtl_detail','user','branchRepo.branch.city.state','agencyRepo.branch.city.state'])->withCount('artifact')->whereNotIn('id',$ids->pluck('audit_id'))->whereNotIn('id',$savedIds)
-                
+
                 ->orderby('id','desc')->paginate(10);
             }
-            
+
        //  $data= Audit::select('id','latitude','longitude','created_at','qm_sheet_id','branch_id','product_id','agency_id','collection_manager_id','agency_repo_id','branch_repo_id','audited_by_id','qm_sheet_id')->with(array('qmsheet'=>function($query){
        //   $query->select('id','name','type','lob');
        // }))->with(array('product'))->with(array('product'=>function($query){
@@ -1380,14 +1376,14 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
     public function audited_list_new(Request $request)
 
     {
-        
+
         /* if(isset($request->start_date)){
             $start_date = date('Y-m-01');
-            
+
         } else {
 
         } */
-        
+
         $savedQcIds=SavedQcAudit::all()->pluck('audit_id')->toArray();
 
         $ids=Qc::with('user')->whereNotIn('audit_id',$savedQcIds)->get()->keyBy('audit_id');
@@ -1415,7 +1411,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
     {
         if($request->start_date){
 
-            
+
             $ids=Qc::with('user')->get()->keyBy('audit_id');
 
             $savedQcIds=SavedQcAudit::all()->pluck('audit_id')->toArray();
@@ -1442,10 +1438,10 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         } else {
             return view('audit.audit_list_new');
         }
-        
+
 
         // dd($data,$ids);
-        
+
        // return view('audit.audit_list_new',compact('data','ids'));
 
     }
@@ -1509,49 +1505,47 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
     }
 
     public function store_audit(Request $request)
-
-    {   //dd("fefef");
-    //dd($request);
+    {
         DB::beginTransaction();
         try{
         logger($request);
 
         $user_role = Auth::user()->roles()->first()->name;
 
-        $latlong = explode(" ",$request->submission_data[0]['geotag']); 
+        $latlong = explode(" ",$request->submission_data[0]['geotag']);
 
         //return response()->json(['status'=>200,'message'=>"Audit saved successfully.",'data'=>$request], 200);
 
         //create audit record
 
         $new_ar = new Audit;
-        
+
         $parent_br_id=0;
-    
+
         if(isset($request->submission_data[0]['agency_id'])) {
             $fi=Agency::find($request->submission_data[0]['agency_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['yard_id'])) {
             $fi=Yard::find($request->submission_data[0]['yard_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['branch_repo_id'])) {
             $fi=BranchRepo::find($request->submission_data[0]['branch_repo_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['agency_repo_id'])) {
             $fi=AgencyRepo::find($request->submission_data[0]['agency_repo_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['branch_id'])) {
             $parent_br_id=$request->submission_data[0]['branch_id'];
         }
-        
+
         $new_ar->parent_branch_id =  $parent_br_id;
         $new_ar->audit_cycle_id = $request->submission_data[0]['audit_cycle'];
         $new_ar->audit_date_by_aud = date('Y-m-d',strtotime($request->submission_data[0]['audit_date']));
@@ -1658,7 +1652,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                 $idupdate = $request->submission_data[0]['branch_id'];
 
-                
+
 
             }
 
@@ -1672,7 +1666,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
             }
 
-            
+
 
             if(!empty($request->submission_data[0]['yard_id'])){
 
@@ -1696,17 +1690,17 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
             if(!empty($request->submission_data[0]['agency_repo_id'])){
 
-                
+
 
                 $branch_idfromagencyrepo = AgencyRepo::where('id',$request->submission_data[0]['agency_repo_id'])->pluck('branch_id');
 
-                
+
 
                 $idupdate = $branch_idfromagencyrepo[0];
 
             }
 
-            
+
 
 
 
@@ -1718,7 +1712,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
         }
 
-       
+
 
            // DB::enableQueryLog();
 
@@ -1731,7 +1725,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 ->where('manager_id',$request->submission_data[0]['collection_manager_id'])
 
                 ->update(['status'=> 2]);
-           
+
 
         if(isset($request->submission_data[0]['artifactIds'])){
 
@@ -1755,7 +1749,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 {
                    foreach($notmatched_param as $parm_values)
                    {
-                    $new_arb = new AuditParameterResult; 
+                    $new_arb = new AuditParameterResult;
                     $new_arb->audit_id =  $new_ar->id;
                     $new_arb->parameter_id = $parm_values;
                     $new_arb->qm_sheet_id = $request->submission_data[0]['qm_sheet_id'];
@@ -1786,7 +1780,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                     if($request->submission_data[0]['status'] == 'submit'){
                         $qc_arb->save();
-                        }   
+                        }
 
                    }
                 }
@@ -1854,7 +1848,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                         $qc_arb->without_fatal_score = $new_arb->without_fatal_score;
 
-                        
+
 
                         if($value['temp_total_weightage']!=0)
 
@@ -1905,7 +1899,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                         $new_arc->option_selected = (isset($value_sb['option']))?$value_sb['option']:null;
 
                         $new_arc->is_critical = ($value_sb['temp_weight']!='Critical')?0:1;
-                        
+
                         $new_arc->is_alert = (array_key_exists('ackalert',$value_sb) && $value_sb['ackalert'] == 1) ? 1 : 0;
 
                         if($value_sb['score']!='rating'){
@@ -1928,7 +1922,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                         }
 
-                        
+
 
                         $new_arc->remark = $value_sb['remark'];
 
@@ -1976,10 +1970,15 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             }
 
 
-
         }
         DB::commit();
-        
+        $url = "audit submit successfully";
+        $audit = "334";
+        $emails= $new_ar->collection_manager_email;
+        Mail::send('emails.audit_sheet_verifyEmail', ['data' => $audit,'url'=>$url], function ($m) use ($emails) {
+            //$m->from('hello@app.com', 'Your Application');
+            $m->to($emails)->subject('Action Plan');
+        });
         return response()->json(['status'=>200,'message'=>"Audit saved successfully.",'audit_id'=>$new_ar->id], 200);
         }
         catch (\Exception $e) {
@@ -1987,51 +1986,50 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             return response()->json(['status'=>500,'message'=>"Audit saved unsuccessfully.",'audit_id'=>$e->getMessage()], 500);
         }
     }
-    
+
     public function store_audit_new(Request $request)
 
     {   //dd("fefef");
-    //dd($request);
         DB::beginTransaction();
         try{
         logger($request);
 
         $user_role = Auth::user()->roles()->first()->name;
 
-        $latlong = explode(" ",$request->submission_data[0]['geotag']); 
+        $latlong = explode(" ",$request->submission_data[0]['geotag']);
 
         //return response()->json(['status'=>200,'message'=>"Audit saved successfully.",'data'=>$request], 200);
 
         //create audit record
 
         $new_ar = new Audit;
-        
+
         $parent_br_id=0;
-    
+
         if(isset($request->submission_data[0]['agency_id'])) {
             $fi=Agency::find($request->submission_data[0]['agency_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['yard_id'])) {
             $fi=Yard::find($request->submission_data[0]['yard_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['branch_repo_id'])) {
             $fi=BranchRepo::find($request->submission_data[0]['branch_repo_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['agency_repo_id'])) {
             $fi=AgencyRepo::find($request->submission_data[0]['agency_repo_id']);
             $parent_br_id=$fi->branch_id;
         }
-        
+
         if(isset($request->submission_data[0]['branch_id'])) {
             $parent_br_id=$request->submission_data[0]['branch_id'];
         }
-        
+
         $new_ar->parent_branch_id =  $parent_br_id;
         $new_ar->audit_cycle_id = $request->submission_data[0]['audit_cycle'];
         $new_ar->audit_date_by_aud = date('Y-m-d',strtotime($request->submission_data[0]['audit_date']));
@@ -2138,7 +2136,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                 $idupdate = $request->submission_data[0]['branch_id'];
 
-                
+
 
             }
 
@@ -2152,7 +2150,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
             }
 
-            
+
 
             if(!empty($request->submission_data[0]['yard_id'])){
 
@@ -2176,17 +2174,17 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
             if(!empty($request->submission_data[0]['agency_repo_id'])){
 
-                
+
 
                 $branch_idfromagencyrepo = AgencyRepo::where('id',$request->submission_data[0]['agency_repo_id'])->pluck('branch_id');
 
-                
+
 
                 $idupdate = $branch_idfromagencyrepo[0];
 
             }
 
-            
+
 
 
 
@@ -2198,7 +2196,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
         }
 
-       
+
 
            // DB::enableQueryLog();
 
@@ -2211,7 +2209,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 ->where('manager_id',$request->submission_data[0]['collection_manager_id'])
 
                 ->update(['status'=> 2]);
-           
+
 
         if(isset($request->submission_data[0]['artifactIds'])){
 
@@ -2235,7 +2233,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 {
                    foreach($notmatched_param as $parm_values)
                    {
-                    $new_arb = new AuditParameterResult; 
+                    $new_arb = new AuditParameterResult;
                     $new_arb->audit_id =  $new_ar->id;
                     $new_arb->parameter_id = $parm_values;
                     $new_arb->qm_sheet_id = $request->submission_data[0]['qm_sheet_id'];
@@ -2266,7 +2264,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                     if($request->submission_data[0]['status'] == 'submit'){
                         $qc_arb->save();
-                        }   
+                        }
 
                    }
                 }
@@ -2334,7 +2332,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                         $qc_arb->without_fatal_score = $new_arb->without_fatal_score;
 
-                        
+
 
                         if($value['temp_total_weightage']!=0)
 
@@ -2385,7 +2383,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                         $new_arc->option_selected = (isset($value_sb['option']))?$value_sb['option']:null;
 
                         $new_arc->is_critical = ($value_sb['temp_weight']!='Critical')?0:1;
-                        
+
                         $new_arc->is_alert = (array_key_exists('ackalert',$value_sb) && $value_sb['ackalert'] == 1) ? 1 : 0;
 
                         if($value_sb['score']!='rating'){
@@ -2408,7 +2406,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                         }
 
-                        
+
 
                         $new_arc->remark = $value_sb['remark'];
 
@@ -2475,7 +2473,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
     public function update_audit(Request $request)
 
     {
-        
+
         DB::beginTransaction();
         try{
         logger($request);
@@ -2486,7 +2484,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         //return response()->json(['status'=>200,'message'=>"Audit saved successfully.",'data'=>$request], 200);
 
         //create audit record
-        
+
         $new_ar = Audit::find($request->submission_data[0]['id']);
 
         /* $new_ar->qm_sheet_id = $request->submission_data[0]['qm_sheet_id']; */
@@ -2517,7 +2515,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
         $new_ar->update();
 
-        
+
 
         if(isset($request->submission_data[0]['agency_id']) && isset($request->submission_data[0]['agency_manager']) && $request->submission_data[0]['agency_manager'] != '')
 
@@ -2641,7 +2639,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                             // $new_arc->after_audit_weight = $value_sb['temp_weight'];
 
-    
+
 
                             // if($temp_selected_opt[3]==2||$temp_selected_opt[3]==3)
 
@@ -2659,7 +2657,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
                             $new_arc->remark = $value_sb['remark'];
 
-                            $new_arc->update(); 
+                            $new_arc->update();
 
                         }
 
@@ -2844,7 +2842,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
     }
 
-    
+
 
     public function excelDownloadQaChanges(Request $request){
 
@@ -2856,7 +2854,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         return Excel::download(new QcAndQaChangesExport($filter_data), 'Qa_changes.xlsx');
 
     }
-    
+
     public function reportAutomation(Request $request) {
 
         $branchList=Branch::select('id','name')->get();
@@ -2897,17 +2895,17 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 foreach ($getBranch->branchable as $key => $value) {
                     if(trim($value->type) == "Collection_Manager") {
                         $collectionManagerID[]=$value->manager_id;
-                    }                   
+                    }
                 }
             }
-            
+
             $brID=$request->branch;
             $start_date=$request->start_date;
             $end_date=$request->end_date;
-            
-            
-            //$start_date=date('Y-m-d', strtotime("-3 month", strtotime($request->start_date))); 
-            
+
+
+            //$start_date=date('Y-m-d', strtotime("-3 month", strtotime($request->start_date)));
+
             if($ids->count()>0){
                 $data = Audit::with(['qmsheet','qmsheet.qm_sheet_sub_parameter','branch.branchableCollection','productnew','branch.yard','branch.agency','branch.city.state','branch.branchable','yard.branch.city.state','agency.branch.city.state','qa_qtl_detail','branchRepo.branch.city.state','agencyRepo.branch.city.state','audit_parameter_result','audit_results','qc','qc.user','collectionManagerData'])
                 ->whereIn('id',$ids->pluck('audit_id'))->where('parent_branch_id',$request->branch)->whereNotIn('id',$savedQcIds)->whereDate('audit_date_by_aud', '>=', $request->start_date)->whereDate('audit_date_by_aud', '<=', $request->end_date)->orderBy('id','desc')->get();
@@ -2916,26 +2914,26 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
                 $data = Audit::with(['qmsheet','qmsheet.qm_sheet_sub_parameter','productnew','branch.branchableCollection','branch.yard','branch.agency','branch.city.state','branch.branchable','yard.branch.city.state','agency.branch.city.state','qa_qtl_detail','branchRepo.branch.city.state','agencyRepo.branch.city.state','audit_parameter_result','audit_results','qc','qc.user','collectionManagerData'])
                   ->whereNotIn('id',$savedQcIds)->where('parent_branch_id',$request->branch)->whereDate('audit_date_by_aud', '>=', $request->start_date)->whereDate('audit_date_by_aud', '<=', $request->end_date)->orderBy('id','desc')->get();
             }
-            
-            
+
+
             $oldSco=OldScore::where('branch_id',$request->branch)->where('type',0)->first();
-            
+
             $proWiseSco=OldScore::where('branch_id',$request->branch)->where('type',1)->get();
-            
-            
+
+
             $has_data=1;
 
             $auditCycle=AuditCycle::orderBy('id','desc')->limit(3)->get()->toArray();
-            
-           
+
+
 
             $getAcr=$this->getAcrReportData($getBranch->id,$request->start_date);
-            
-            
+
+
 
             return view('audit.report_automate_data',compact('data','oldSco','proWiseSco','auditCycle','branchList','getBranch','has_data','start_date','end_date','brID','collectionManagerID','agencyRepoID','branchRepoID','agencyID','yardID','getAcr'));
-        }      
-        
+        }
+
     }
 
     public function reportAutomationDataColl(Request $request) {
@@ -2967,7 +2965,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             foreach ($getBranch->branchable as $key => $value) {
                 if(trim($value->type) == "Collection_Manager" && $value->status == 2) {
                     $collectionManagerID[]=$value->manager_id;
-                }                   
+                }
             }
         }
         $brID=$request->branch;
@@ -2979,20 +2977,20 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             $data = Audit::with(['qmsheet','qmsheet.qm_sheet_sub_parameter','productnew','yard.branch.city.state','agency.branch.city.state','qa_qtl_detail','branchRepo.branch.city.state','agencyRepo.branch.city.state','audit_parameter_result','audit_results','qc','qc.user','collectionManagerData','audit_results.parameter_detail','audit_results.sub_parameter_detail'])
               ->whereNotIn('id',$savedQcIds)->whereIn('collection_manager_id',$collectionManagerID)->where('parent_branch_id',$brID)->whereDate('audit_date_by_aud', '>=', $request->start_date)->whereDate('audit_date_by_aud', '<=', $request->end_date)->get();
         }
-        
-        
+
+
         $calculation = DB::select(DB::raw("Select * from 6040_calculation"));
-        
-        
-        
+
+
+
         $start_date=$request->start_date;
         $end_date=$request->end_date;
         $selecollMan=($request->cmid) ? $request->cmid : $collectionManagerID[0];
         $has_data=1;
 
-        
-        return view('audit.report_automate_collec',compact('data','calculation','getBranch','has_data','start_date','end_date','collectionManagerID','selecollMan'));          
-        
+
+        return view('audit.report_automate_collec',compact('data','calculation','getBranch','has_data','start_date','end_date','collectionManagerID','selecollMan'));
+
     }
 
     public function reportAutomationDatagap(Request $request) {
@@ -3024,20 +3022,20 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             foreach ($getBranch->branchable as $key => $value) {
                 if(trim($value->type) == "Collection_Manager" && $value->status == 2) {
                     $collectionManagerID[]=$value->manager_id;
-                }                   
+                }
             }
         }
-        
+
         $brID=$request->branch;
-        
+
         if($ids->count()>0){
             $data = Audit::whereIn('id',$ids->pluck('audit_id'))->whereIn('agency_id',$agencyID)->where('parent_branch_id',$brID)->whereNotIn('id',$savedQcIds)->whereDate('audit_date_by_aud', '>=', $request->start_date)->whereDate('audit_date_by_aud', '<=', $request->end_date)->get();
         }
         else{
             $data = Audit::whereNotIn('id',$savedQcIds)->whereIn('agency_id',$agencyID)->where('parent_branch_id',$brID)->whereDate('audit_date_by_aud', '>=', $request->start_date)->whereDate('audit_date_by_aud', '<=', $request->end_date)->get();
         }
-        
-        
+
+
         $start_date=$request->start_date;
         $end_date=$request->end_date;
         $selecollMan=($request->cmid) ? $request->cmid : 'all';
@@ -3045,37 +3043,37 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 
         $getAgency=Agency::find($selecollMan);
         $auditCycle=AuditCycle::orderBy('id','desc')->limit(3)->get()->toArray();
-        
+
         $depositionData=CashDepositionData::with('agency','branch')->whereDate('date','>=',$start_date)->whereDate('date','<=',$end_date)->get();
         $receiptData=ReceiptCutData::with('agency','branch')->whereDate('date','>=',$start_date)->whereDate('date','<=',$end_date)->get();
         $secData=DelaySeconAllocData::with('agency','branch')->whereDate('date','>=',$start_date)->whereDate('date','<=',$end_date)->get();
-          
+
         return view('audit.report_automate_gap',compact('data','getBranch','auditCycle','has_data','start_date','end_date','agencyID','selecollMan','getAgency','depositionData','receiptData','secData'));
-          
-        
+
+
     }
 
     public function reportDataUploader(Request $request) {
 
         if($request->hasFile('acr_report')) {
             $data = Excel::import(new AcrImport([
-                 'uploaded_by' => Auth::User()->id                   
+                 'uploaded_by' => Auth::User()->id
             ]), $request->acr_report);
         }
 
         if($request->hasFile('dac_uploader')) {
             $data = Excel::import(new CashDespositionImport([
-                   'uploaded_by' => Auth::User()->id                   
+                   'uploaded_by' => Auth::User()->id
             ]), $request->dac_uploader);
         }
-        
+
         if($request->hasFile('score_upload')) {
             $data = Excel::import(new OldscoreImport([
-                   'uploaded_by' => Auth::User()->id                   
+                   'uploaded_by' => Auth::User()->id
             ]), $request->score_upload);
         }
 
-        
+
         return redirect()->route('reportAutomation')->withStatus(__('Data Uploaded Successfully.'));
     }
 
@@ -3088,30 +3086,30 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
         }
     }
 
-    function getAcrReportData($branch_id,$start_date) 
+    function getAcrReportData($branch_id,$start_date)
     {
-		
+
 		$final_data=array();
-		
+
 		$pre_mon=array();
-		
+
         $pre_mon[0]=date('Y-M', strtotime("-1 month", strtotime(date("Y-m-d",strtotime($start_date)))));
         $pre_mon[1]=date('Y-M', strtotime("-2 month", strtotime(date("Y-m-d",strtotime($start_date)))));
         $pre_mon[2]=date('Y-M', strtotime("-3 month", strtotime(date("Y-m-d",strtotime($start_date)))));
-        
+
 
         $get=AcrReportData::with('agency','product')->where('branch_id',$branch_id)->whereIn('month',$pre_mon)->get();
-        
-        
+
+
 
         $agency_arr_id=array();
         $product_arr_id=array();
         foreach($get as $g){
             if(!in_array($g->agency_id, $agency_arr_id)) {
-                $agency_arr_id[]=$g->agency_id;         
+                $agency_arr_id[]=$g->agency_id;
             }
 			if(!in_array($g->product_group, $product_arr_id)) {
-                $product_arr_id[]=$g->product_group;         
+                $product_arr_id[]=$g->product_group;
             }
         }
 		$allocation_capacity=array();
@@ -3124,28 +3122,28 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 			$data['fos_count'][2]=0;
 			$data['alloc_count'][0]=0;
 			$data['alloc_count'][1]=0;
-			$data['alloc_count'][2]=0;			
+			$data['alloc_count'][2]=0;
 			$data['capacity']=0;
 			$data['avg_alloc_count']=0;
 			$data['avg_fos_count']=0;
 			$data['gap']=0;
-			
+
 			$uniqFos[0]=array();
 			$uniqFos[1]=array();
 			$uniqFos[2]=array();
 			$is_flow=0;
 			$recovery=array();
 			$pro=array();
-			foreach($get as $g){				
+			foreach($get as $g){
 				if($g->agency_id == $a) {
-					
+
 					$data['agency_name']=$g->agency->name;
 					if($g->month == $pre_mon[0]) {
 						if(!in_array($g->agent_id,$uniqFos[0])) {
 							$data['fos_count'][0]+=1;
 							$uniqFos[0][]=$g->agent_id;
 						}
-						$data['alloc_count'][0]+=1;						
+						$data['alloc_count'][0]+=1;
 					}
 					if($g->month == $pre_mon[1]) {
 						if(!in_array($g->agent_id,$uniqFos[1])) {
@@ -3161,26 +3159,26 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 						}
 						$data['alloc_count'][2]+=1;
 					}
-					
+
 					if($g->product) {
 						if(!in_array($g->product->id,$pro)) {
 							if($g->product->is_recovery == 0) {
 								$is_flow+=1;
 							} else {
 								$recovery[]=$g->product->capacity;
-							}	
-						}																	
+							}
+						}
 					}
 				}
 			}
-			
+
 			$flow_capacity=$is_flow*80;
 			$data['capacity']=$flow_capacity*array_sum($data['fos_count']);
 			if(count($recovery) > 0) {
 				foreach($recovery as $r) {
 					$data['capacity']+=(array_sum($data['fos_count'])*$r);
 				}
-			}			
+			}
 			$data['avg_fos_count']=(array_sum($data['fos_count']) != 0) ? round(array_sum($data['fos_count'])/3) : 0;
 			$data['avg_alloc_count']=(array_sum($data['alloc_count']) != 0) ? round(array_sum($data['alloc_count'])/3) : 0;
 			$data['gap']=$data['avg_alloc_count']-$data['capacity'];
@@ -3200,14 +3198,14 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 			$data['crossed'][0]=0;
 			$data['crossed'][1]=0;
 			$data['crossed'][2]=0;
-			
+
 			foreach($get as $g) {
 				if($g->product_group == $p) {
 					$pro_cap=($g->product) ? $g->product->capacity : 0;
 					if($g->month == $pre_mon[0]) {
 						if(!array_key_exists($g->agent_id,$uni_agen[0])) {
 							$uni_agen[0][$g->agent_id]=0;
-						}					
+						}
 						if(array_key_exists($g->agent_id,$uni_agen[0])) {
 							$uni_agen[0][$g->agent_id]+=1;
 						}
@@ -3215,7 +3213,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 					if($g->month == $pre_mon[1]) {
 						if(!array_key_exists($g->agent_id,$uni_agen[1])) {
 							$uni_agen[1][$g->agent_id]=0;
-						}					
+						}
 						if(array_key_exists($g->agent_id,$uni_agen[1])) {
 							$uni_agen[1][$g->agent_id]+=1;
 						}
@@ -3223,15 +3221,15 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 					if($g->month == $pre_mon[2]) {
 						if(!array_key_exists($g->agent_id,$uni_agen[2])) {
 							$uni_agen[2][$g->agent_id]=0;
-						}					
+						}
 						if(array_key_exists($g->agent_id,$uni_agen[2])) {
 							$uni_agen[2][$g->agent_id]+=1;
 						}
 					}
-				}				
+				}
 			}
-			
-			
+
+
 			foreach($uni_agen[2] as $a) {
 				if($a == $pro_cap) {
 					$data['main'][2]+=1;
@@ -3241,7 +3239,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 				    }
 				}
 			}
-			
+
 			foreach($uni_agen[0] as $a) {
 				if($a == $pro_cap) {
 					$data['main'][0]+=1;
@@ -3251,7 +3249,7 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 				    }
 				}
 			}
-			
+
 			foreach($uni_agen[1] as $a) {
 				if($a == $pro_cap) {
 					$data['main'][1]+=1;
@@ -3261,17 +3259,17 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
 				    }
 				}
 			}
-			
-			$pro_detail[]=$data;			
+
+			$pro_detail[]=$data;
 		}
-		
+
 		$final_data['pre_mon']=$pre_mon;
 		$final_data['allocation_capacity']=$allocation_capacity;
 		$final_data['pro_detail']=$pro_detail;
-		
+
 		return $final_data;
 	}
-    
+
     public function createCycle(Request $request) {
         if($request->isMethod('post')) {
             if($request->cycle_name) {
@@ -3288,11 +3286,11 @@ $resultPar=AuditParameterResult::where('audit_id',$result->id)->get()->keyBy('pa
             } else {
                 return redirect('list-audit-cycle')->withStatus(__('Cycle name not available.'));
             }
-            
+
         }
         return view('audit.create_audit_cycle');
     }
-    
+
     public function listCycle(Request $request) {
         $data=AuditCycle::orderBy("id","desc")->get();
         return view('audit.audit_cycle_list',compact('data'));

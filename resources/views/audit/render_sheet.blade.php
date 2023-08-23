@@ -75,31 +75,31 @@ Messages
 <div class="animated fadeIn">
 	<div class="row">
 		<div class="col-lg-12">
-			<div class="card"> 
+			<div class="card">
 				<div class="card-header" style="background-image: linear-gradient(to right, rgb(132, 94, 194), rgb(144, 109, 198), rgb(156, 125, 201), rgb(168, 140, 205), rgb(179, 156, 208));color:#fff">
 				<strong class="card-title">{{($data->lob=='commercial_vehicle')?'Commercial Vehicle':ucfirst($data->lob)}} | {{ucfirst(str_replace('_',' ',$data->type))}}</strong>
 				</div>
 				<div class="card-body">
 					<div class="row">
 						@if($data->type=='branch')
-							
-				
+
+
 							<div class="col-md-3 form-group">
 								<label>Branch*</label>
 								<select name="branch" class="form-control branch js-example-basic-single" id="audit_for">
 								<option value="">Choose Branch</option>
-								@foreach ($branch as $item)  
+								@foreach ($branch as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
 							</div>
 						@elseif($data->type=='agency')
-						
+
 							<div class="col-md-3 form-group">
 								<label>Agency*</label>
 								<select name="agency" class="form-control agency js-example-basic-single" id="audit_for">
 								<option value="">Choose Agency</option>
-								@foreach ($agency as $item)  
+								@foreach ($agency as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
@@ -109,7 +109,7 @@ Messages
 								<label>Yard*</label>
 								<select name="yard" class="form-control yard js-example-basic-single" id="audit_for">
 								<option value="">Choose Yard</option>
-								@foreach ($yard as $item)  
+								@foreach ($yard as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
@@ -119,38 +119,38 @@ Messages
 								<label>Branch Repo*</label>
 								<select name="branch_repo" class="form-control branch_repo js-example-basic-single" id="audit_for">
 								<option value="">Choose Branch Repo</option>
-								@foreach ($branchRepo as $item)  
+								@foreach ($branchRepo as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
 							</div>
 							@elseif($data->type=='agency_repo')
-							
+
 							<div class="col-md-3 form-group">
 								<label>Agency Repo*</label>
 								<select name="agency_repo" class="form-control agency_repo js-example-basic-single" id="audit_for">
 								<option value="">Choose Yard</option>
-								@foreach ($agencyRepo as $item)  
+								@foreach ($agencyRepo as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
 							</div>
 						@endif
-						
+
 						<div class="col-md-3 form-group">
 								<label>Audit Cycle*</label>
 								<select name="audit_cycle" class="form-control audit_cycle js-example-basic-single" id="audit_cycle" required="true">
-								@foreach ($cycle as $item)  
+								@foreach ($cycle as $item)
 									<option value="{{$item->id}}">{{$item->name}}</option>
 								@endforeach
 								</select>
 						</div>
-						
+
 						<div class="col-md-3 form-group">
 								<label>Audit Date*</label>
 								<input type="date" name="audit_date" class="form-control audit_date js-example-basic-single" id="audit_date" required="true">
 						</div>
-						
+
 						<div class="col-md-3 form-group" id="product" style="display:none;">
 							<label>Product*</label>
 							<select name="product" class="form-control product" id="productSelect">
@@ -167,16 +167,16 @@ Messages
 					<strong class="card-title">Audit</strong>
 				</div>
 				<div class="card-body">
-					
+
 					<div class="row">
 						<div class="col-md-2 kt-font-bolder">
 							Parameter
 						</div>
 						<div class="col-md-10 kt-font-bolder">
 							<div class="row">
-							<div class="col-md-3 kt-font-bolder">Sub Parameter</div> 
-								<div class="col-md-3 kt-font-bolder">Observation</div> 
-								<div class="col-md-3 kt-font-bolder">Scored</div> 
+							<div class="col-md-3 kt-font-bolder">Sub Parameter</div>
+								<div class="col-md-3 kt-font-bolder">Observation</div>
+								<div class="col-md-3 kt-font-bolder">Scored</div>
 								<!-- <div class="col-md-3 kt-font-bolder">Remarks</div> -->
 								<div class="col-md-3 kt-font-bolder">Action</div>
 							</div>
@@ -205,7 +205,7 @@ Messages
 									@foreach ($item->qm_sheet_sub_parameter as $value)
 									<div class="row flex-container mb-2">
 									    <div class="col-md-3 kt-font-bold">
-										
+
 											{{$value->sub_parameter}} <i title="sdfdf" class="la la-info-circle kt-font-warning sp-details-top"></i>
 										</div>
 										<div class="col-md-3">
@@ -257,7 +257,7 @@ Messages
 										$total=$total+$value->weight;
 									@endphp
 									@endforeach
-									<span style="display:none" id="total{{$item->id}}">{{$total}}</span>	
+									<span style="display:none" id="total{{$item->id}}">{{$total}}</span>
 								</div>
 							</div>
 					</div>
@@ -265,7 +265,7 @@ Messages
 					</div>
 					{{-- // result --}}
 					<div>
-						
+
 				</div>
 				{{-- <div class="card-footer">
 					<button type="submit" class="btn btn-primary btn-sm">
@@ -283,7 +283,7 @@ Messages
 				<strong class="card-title">Result</strong>
 			</div>
 			<div class="card-body">
-				
+
 		<div class="row" style="border-bottom: 1px solid rgb(204, 204, 204);">
 			<!-- <div class="col-lg-4 kt-font-bolder">&nbsp;</div> -->
 			<div class="col-lg-3 kt-font-bolder">Parameter</div>
@@ -299,7 +299,7 @@ Messages
 			<div class="col-lg-2 kt-font-bolder">With FATAL</div>
 			<div class="col-lg-2 kt-font-bolder">Without FATAL</div>
 		</div> -->
-		
+
 		@foreach ($data->parameter as $item)
 			<!-- <div class="row" style="border-bottom: 1px solid rgb(204, 204, 204); padding: 20px 0px; height: 100%;">
 				<div class="col-lg-2 kt-font-bold kt-font-primary">{{$item->parameter}}</div>
@@ -499,7 +499,7 @@ var artifactData={};
 				// total +=sum(obj[el])
 			}
 		}
-		
+
 		jQuery('#scroable').text(parmeterTotal)
 		jQuery('#wfatal').text(total)
 		jQuery('#wnfatal').text(total)
@@ -542,7 +542,7 @@ var artifactData={};
 					}
 				}
 			}
-		
+
 		jQuery('#scroable'+parameterId).text(parmeterTotal)
 		jQuery('#wfatal'+parameterId).text(total)
 		// jQuery('#wnfatal'+parameterId).text(total)
@@ -551,7 +551,7 @@ var artifactData={};
 		jQuery('#wfatalper'+parameterId).text(wfatalper.toFixed(2)+'%')
 		// jQuery('#wnfatalper'+parameterId).text(wnfatalper+'%')
 		totalfun(result)
-		
+
 	}
 	jQuery('.ratingSelect').on('change',function(e){
 		var id =jQuery(this).data('id');
@@ -586,7 +586,6 @@ var artifactData={};
 		}
 	})
 	jQuery(".submit").on("click",function(e){
-	    
 	    //added by nisha
 	    var className = jQuery('#audit_for').attr('name');
 		if(jQuery('#audit_for').val() == ''){
@@ -604,13 +603,13 @@ var artifactData={};
 			return false;
 		}
         var observation_rs=true;
-          jQuery('.0bervation').each(function(){ 
+          jQuery('.0bervation').each(function(){
           	var id=jQuery(this).val();
           	var txt1=jQuery(this).children("option").filter(":selected").text();
           	console.log(id);
           	if(id == null || typeof(id) == 'undefined' || txt1.trim() == 'Choose type')
           	{
-			observation_rs= false;	
+			observation_rs= false;
           	}
           	});
           	if(observation_rs == true){
@@ -644,7 +643,7 @@ var artifactData={};
 		// }
 	})
 	jQuery(".savebutton").on("click",function(e){
-	    //added by nisha 
+	    //added by nisha
 	    var className = jQuery('#audit_for').attr('name');
 		if(jQuery('#audit_for').val() == ''){
 			alert('Please select '+ className);
@@ -663,13 +662,13 @@ var artifactData={};
 		}
 
 		 var observation_rs=true;
-          jQuery('.0bervation').each(function(){ 
+          jQuery('.0bervation').each(function(){
           	var id=jQuery(this).val();
           	var txt1=jQuery(this).children("option").filter(":selected").text();
           	console.log(id);
           	if(id == null || typeof(id) == 'undefined' || txt1.trim() == 'Choose type')
           	{
-			observation_rs= false;	
+			observation_rs= false;
           	}
           	});
           	if(observation_rs == true){
@@ -700,7 +699,7 @@ var artifactData={};
 		else{
 			alert('please filled remarks')
 		}*/
-		
+
 	})
 	jQuery('.branch').on('change',function(e){
 		gerProduct(e.target.value,'branch')
@@ -715,23 +714,23 @@ var artifactData={};
 		gerProduct(e.target.value,'branch_repo')
 	})
 	jQuery('.agency_repo').on('change',function(e){
-		
+
 		gerProduct(e.target.value,'agency_repo')
 	})
 	jQuery('.product').on('change',function(e){
 		var type=jQuery('#productSelect').attr("data-type")
 		var id=jQuery('#productSelect').attr("data-id")
 		editBranch(id,e.target.value,type)
-		
+
 	})
 	function gerProduct(id,type){
 		console.log(id);
-		
+
 		var saveData = jQuery.ajax({
 			type: 'get',
 			url: "{{url('get_product')}}/"+id+'/'+type,
 			dataType: "text",
-			success: function(resultData) { 
+			success: function(resultData) {
 				var data='<option value="">Choose Product</option>';
 				var obj=JSON.parse(resultData)
 				obj.data.forEach(function(item, index){
@@ -746,14 +745,14 @@ var artifactData={};
 		});
 		// saveData.error(function() { alert("Something went wrong"); });
 	}
-	
-	
+
+
 	function editBranch(id,product_id,type){
 		var saveData = jQuery.ajax({
 			type: 'get',
 			url: "{{url('get_branch_detail')}}/"+id+'/'+type+'/'+product_id,
 			dataType: "text",
-			success: function(resultData) { 
+			success: function(resultData) {
 				// console.log(resultData)
 				jQuery('#data').html(resultData)
 				// window.location='{{ url("audited_list")}}'
@@ -786,11 +785,11 @@ var artifactData={};
 		jQuery('#alertlob').val(typelob)
 		console.log(parameterId)
 		jQuery('#exampleModal').modal('show');
-		
+
 	})
-	
-	
-	
+
+
+
 	jQuery('.artifactModal').on('click',function(e){
 	    var subparameterId =jQuery(this).data('id')
 		var parameterId =jQuery(this).data('parameterid')
@@ -837,7 +836,7 @@ var artifactData={};
 		// 	data: data,
 		// 	processData: false,
 		// 	contentType: false,
-		// 	success: function(resultData) { 
+		// 	success: function(resultData) {
 		// 		console.log(resultData)
 		// 		// window.location='{{ url("audited_list")}}'
 		// 	}
@@ -902,10 +901,10 @@ var artifactData={};
 			data: data,
 			processData: false,
 			contentType: false,
-			success: function(resultData) { 
+			success: function(resultData) {
 				console.log(resultData)
 				jQuery('#moreArtifact').empty()
-				jQuery('.file').val('')	
+				jQuery('.file').val('')
 				ImgPreview(resultData.data,'.preview'+subid)
 				// window.location='{{ url("audited_list")}}'
 				jQuery('#artifactModal').modal('hide');
@@ -920,7 +919,7 @@ var artifactData={};
 				type: 'DELETE',
 				url: "{{url('artifact')}}/"+id,
 				data: data,
-				success: function(resultData) { 
+				success: function(resultData) {
 					console.log(resultData)
 					jQuery('.preview'+id).remove();
 				}
@@ -938,7 +937,7 @@ var artifactData={};
 					<img src="${item.file}" style="width:100px;height:100px;" data-id="${item.id}">
 				</div>`;
 			})
-			jQuery(placeToInsertImagePreview).html(image)	
+			jQuery(placeToInsertImagePreview).html(image)
 		// }
 }
 	function changeUser(val){
@@ -948,7 +947,7 @@ var artifactData={};
 				type: 'get',
 				url: "{{url('get_users')}}/"+val+'/Collection_Manager',
 				dataType: "text",
-				success: function(resultData) { 
+				success: function(resultData) {
 					var obj=JSON.parse(resultData)
 					obj.data.forEach(function(item, index){
 						data=data+'<option value="'+item.name+'" data-id="'+item.id+'" data-email="'+item.email+'">'
@@ -978,7 +977,7 @@ var artifactData={};
 		});
 	// console.log(xyz)
 	}
-	
+
 	function changeAgencyManager(val){
 		var data='';
 		if(val.length>3){
@@ -986,7 +985,7 @@ var artifactData={};
 				type: 'get',
 				url: "{{url('get_users')}}/"+val+'/Collection_Manager',
 				dataType: "text",
-				success: function(resultData) { 
+				success: function(resultData) {
 					var obj=JSON.parse(resultData)
 					obj.data.forEach(function(item, index){
 						data=data+'<option value="'+item.name+'" data-id="'+item.id+'" data-email="'+item.email+'">'
@@ -1023,7 +1022,7 @@ var artifactData={};
 				type: 'get',
 				url: "{{url('get_users')}}/"+val+'/Collection_Manager',
 				dataType: "text",
-				success: function(resultData) { 
+				success: function(resultData) {
 					var obj=JSON.parse(resultData)
 					obj.data.forEach(function(item, index){
 						data=data+'<option value="'+item.name+'" data-id="'+item.id+'" data-email="'+item.email+'">'
@@ -1054,7 +1053,6 @@ var artifactData={};
 	// console.log(xyz)
 	}
 	function submitDataFun(typesubmit){
-
 	var submitData=[];
 		var parameters={}
 		var sub={}
@@ -1075,7 +1073,7 @@ var artifactData={};
 						}
 					}
 				}
-				
+
 				parameters[el]={
 				'score':jQuery('#scroable'+el).text(),
 				'score_with_fatal':jQuery('#wfatal'+el).text(),
@@ -1095,7 +1093,7 @@ var artifactData={};
 		submitData.push({
 			'qm_sheet_id':{{$data->id}},
 			'geotag':jQuery('#demogeo').val(),
-			
+
 			// 'overall_score':jQuery('#scroable').text(),
 			'overall_score':jQuery('#wfatal').text(),
 			'with_fatal_score_per':jQuery('#wfatalper').text(),
@@ -1128,7 +1126,7 @@ var artifactData={};
 				'X-CSRF-TOKEN': "{{ csrf_token() }}"
 			},
 			dataType: "text",
-			success: function(result) { 
+			success: function(result) {
 				var data = new FormData();
 				console.log(result)
 				if(jQuery.isEmptyObject(alertData)==false){
@@ -1159,7 +1157,7 @@ var artifactData={};
 					},
 					processData: false,
 					contentType: false,
-					success: function(resultData) { 
+					success: function(resultData) {
 						console.log(resultData)
 						window.location='{{ url("auditor_list")}}'
 					}
@@ -1200,13 +1198,13 @@ var x = document.getElementById("demogeo");
 function getLocation() {
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(showPosition, showError);
-  } else { 
+  } else {
     x.innerHTML = "Geolocation is not supported by this browser.";
   }
 }
 
 function showPosition(position) {
-  var value =  position.coords.latitude + 
+  var value =  position.coords.latitude +
   " " + position.coords.longitude;
   console.log(value)
   jQuery('#demogeo').val(value)

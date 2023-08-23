@@ -65,6 +65,20 @@ class LocationController extends Controller
         );
     }
 
+    function cityDelete($id){
+        $city=City::where('id',Crypt::decrypt($id))->update(['status'=>1]);
+
+        if($city){
+
+            return redirect()->route('location.city_view')->with('success', ['City deleted successfully.']);
+
+        }
+        else{
+
+            return redirect()->back()->with('error', ['City deletion unsuccessfully.']);
+
+        }
+      }
     /**
 
      * Show the form for creating a new resource.

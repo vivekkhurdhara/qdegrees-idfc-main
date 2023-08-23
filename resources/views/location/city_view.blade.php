@@ -70,9 +70,7 @@ Users
 								<td>{{$k+1}}</td>
 
 								<td>
-
 									{{$row->name}}
-
 								</td>
 								<td nowrap>
 

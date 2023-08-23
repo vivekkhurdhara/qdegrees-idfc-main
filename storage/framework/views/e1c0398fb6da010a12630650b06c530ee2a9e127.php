@@ -1,32 +1,31 @@
-@extends('layouts.master')
+<?php $__env->startSection('sh-title'); ?>
+<?php echo e($qm_sheet_data->name); ?>
 
-@section('sh-title')
-{{$qm_sheet_data->name}}
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('sh-detail')
+<?php $__env->startSection('sh-detail'); ?>
 Create New Parameter
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('sh-toolbar')
+<?php $__env->startSection('sh-toolbar'); ?>
 							<div class="kt-subheader__toolbar">
 								<div class="kt-subheader__wrapper">
 
-								<a href="{{url('/qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/list_parameter')}}" class="btn btn-label-success btn-bold">
+								<a href="<?php echo e(url('/qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/list_parameter')); ?>" class="btn btn-label-success btn-bold">
 									List All Parameter
 								</a>
 
 								</div>
 							</div>
-@endsection
+<?php $__env->stopSection(); ?>
 
-@section('content')
+<?php $__env->startSection('content'); ?>
 
 <div class="row">
   <div class="col-md-12">
 	<div class="text-right" style="margin-bottom:10px;">
 		<div class="kt-subheader__wrapper">
-			<a href="{{url('/qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/list_parameter')}}" class="btn btn-success btn-bold">
+			<a href="<?php echo e(url('/qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/list_parameter')); ?>" class="btn btn-success btn-bold">
 				List All Parameter
 			</a>
 		</div>
@@ -34,35 +33,29 @@ Create New Parameter
     <!--begin::Portlet-->
     <div class="card">
 		<div class="card-header">
-			<strong>Create New Parameter</strong>
+			<strong>Create New Parameterddfffds</strong>
 		</div>
 		<div class="card-body card-block">
 
       <!--begin::Form-->
 
-        {!! Form::open(
+        <?php echo Form::open(
                   array(
                     'route' => 'store_parameters',
                     'class' => 'kt-form',
                     'role'=>'form',
                     'data-toggle'=>"validator")
-                  ) !!}
-        {{-- <input type="hidden" name="company_id" value="{{Auth::user()->company_id}}"> --}}
-        <input type="hidden" name="qm_sheet_id" value="{{$qm_sheet_data->id}}">
+                  ); ?>
+
+        
+        <input type="hidden" name="qm_sheet_id" value="<?php echo e($qm_sheet_data->id); ?>">
         <div class="row">
 
           <div class="col-md-12 form-group">
             <label>Parameter*</label>
             <input type="text" name="parameter" class="form-control col-lg-6" required>
           </div>
-          {{-- <div class="col-md-12 form-group">
-            <div class="kt-form__group--inline">
-				<div class="kt-form__control">
-					<label>Is non scoring ?</label>
-					<input type="checkbox" name="non_scoring" value="1">
-				</div>
-			</div>
-          </div> --}}
+          
 		</div>
 
           <div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
@@ -112,7 +105,7 @@ Create New Parameter
 															</div>
 
 															<br/>
-															{{-- <span class="form-text text-muted">This will only applicable when "Is non scoring" is un-checked!</span><br/> --}}
+															
 															<div class="row">
 																<div class="col-md-2">
 																	<label class="kt-checkbox kt-checkbox--state-success">
@@ -120,59 +113,47 @@ Create New Parameter
 																		<span></span>
 																	</label>
 																</div>
-																{{-- <div class="col-md-3">
-																	{{ Form::select('s_pass_alert_box_id',$all_alert_box_list,null,['class'=>'form-control','placeholder'=>"Select alert box if any!"]) }}
-																</div> --}}
-															{{-- </div> --}}
+																
+															
 
-															{{-- <br/> --}}
-															{{-- <div class="row"> --}}
+															
+															
 																<div class="col-md-2">
 																	<label class="kt-checkbox kt-checkbox--state-success">
 																		<input type="checkbox" name="s_fail" value="1"> Fail
 																		<span></span>
 																	</label>
 																</div>
-																{{-- <div class="col-md-3">
-																	{{ Form::select('s_fail_alert_box_id',$all_alert_box_list,null,['class'=>'form-control','placeholder'=>"Select alert box if any!"]) }}
-																</div> --}}
-																{{-- <div class="col-md-4">
-																	{{ Form::select('s_fail_reason_type_box_id',$all_reason_types,null,['class'=>'form-control','multiple'=>'multiple','style'=>"height:80px;"]) }}
-																</div> --}}
-															{{-- </div> --}}
+																
+																
+															
 
-															{{-- <br/> --}}
-															{{-- <div class="row"> --}}
+															
+															
 																<div class="col-md-2">
 																	<label class="kt-checkbox kt-checkbox--state-success">
 																		<input type="checkbox" name="s_critical" value="1"> Critical
 																		<span></span>
 																	</label>
 																</div>
-																{{-- <div class="col-md-3">
-																	{{ Form::select('s_critical_alert_box_id',$all_alert_box_list,null,['class'=>'form-control','placeholder'=>"Select alert box if any!"]) }}
-																</div> --}}
-																{{-- <div class="col-md-4">
-																	{{ Form::select('s_critical_reason_type_box_id',$all_reason_types,null,['class'=>'form-control','multiple'=>'multiple','style'=>"height:80px;"]) }}
-																</div> --}}
-															{{-- </div> --}}
+																
+																
+															
 
-															{{-- <br/> --}}
-															{{-- <div class="row"> --}}
+															
+															
 																<div class="col-md-2">
 																	<label class="kt-checkbox kt-checkbox--state-success">
 																		<input type="checkbox" name="s_na" value="1"> N/A
 																		<span></span>
 																	</label>
 																</div>
-																{{-- <div class="col-md-3">
-																	{{ Form::select('s_na_alert_box_id',$all_alert_box_list,null,['class'=>'form-control','placeholder'=>"Select alert box if any!"]) }}
-																</div> --}}
+																
 
-															{{-- </div> --}}
+															
 
-															{{-- <br/> --}}
-															{{-- <div class="row"> --}}
+															
+															
 																<div class="col-md-2">
 																	<label class="kt-checkbox kt-checkbox--state-success">
 																		<input type="checkbox" name="s_pwd" value="1"> PWD
@@ -185,26 +166,14 @@ Create New Parameter
 																		<span></span>
 																	</label>
 																</div>
-																{{-- <div class="col-md-3">
-																	{{ Form::select('s_pwd_alert_box_id',$all_alert_box_list,null,['class'=>'form-control','placeholder'=>"Select alert box if any!"]) }}
-																</div> --}}
+																
 															</div>
 
 															<div class="kt-separator kt-separator--border-dashed kt-separator--space-lg"></div>
 
-															{{-- <h6>Non Scoring Observation Option Group</h6> --}}
+															
 
-															{{-- <div class="form-group col-md-5">
-												            <label>Please select a group*</label>
-												            <select class="form-control" name="non_scoring_option_group">
-												            	<option value=""> select an option</option>
-												            	<option value="1"> Yes / No</option>
-												            	<option value="2"> 3 Pointer (Promoter, Distractor, Passive)</option>
-												            	<option value="3"> 4 Pointer (Good, Bad, Excellent, Poor)</option>
-												            	<option value="4"> 5 Pointer (Excellent, Good, Average, Bad, Poor)</option>
-												            </select>
-												            <span class="form-text text-muted">This will only applicable when "Is non scoring" is checked!</span>
-												          </div> --}}
+															
 
 
 														</div>
@@ -241,8 +210,10 @@ Create New Parameter
 </div>
 
 
-@endsection
-@section('js')
+<?php $__env->stopSection(); ?>
+<?php $__env->startSection('js'); ?>
 <script src="https://cdn.jsdelivr.net/npm/jquery@2.2.4/dist/jquery.min.js"></script>
-@include('shared.form_js')
-@endsection
+<?php echo $__env->make('shared.form_js', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?>
+<?php $__env->stopSection(); ?>
+
+<?php echo $__env->make('layouts.master', \Illuminate\Support\Arr::except(get_defined_vars(), ['__data', '__path']))->render(); ?><?php /**PATH C:\wamp64\www\idfc\resources\views/qm_sheet/add_parameter.blade.php ENDPATH**/ ?>

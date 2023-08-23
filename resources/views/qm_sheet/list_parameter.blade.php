@@ -15,9 +15,9 @@ Parameters
 								<a href="{{url('qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/add_parameter')}}" class="btn btn-label-success btn-bold">
 									Create New Parameter
 								</a>
-								
+
 								</div>
-							</div> 
+							</div>
 @endsection
 
 @section('content')
@@ -35,7 +35,7 @@ Parameters
 				<a href="{{url('qm_sheet/'.Crypt::encrypt($qm_sheet_data->id).'/add_parameter')}}" class="btn btn-success btn-bold">
 					Create New Parameter
 				</a>
-				
+
 				</div>
 			</div>
 			<div class="card">
@@ -86,7 +86,7 @@ Parameters
 											<td>
 												{{($row->is_non_scoring)?"Non-Scoring":"Scoring"}}
 											</td>
-											
+
 					<td nowrap>
                         <div style="display: flex;">
                         	{{Form::open([ 'method'  => 'delete', 'route' => [ 'delete_parameter', Crypt::encrypt($row->id) ],'onsubmit'=>"delete_confirm()"])}}

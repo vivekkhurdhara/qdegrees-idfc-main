@@ -191,6 +191,7 @@ Route::group(['middleware' => ['auth']], function () {
     Route::resource('agency', 'AgencyController');
     Route::resource('branch', 'BranchController');
     Route::get('location/city_view', 'LocationController@cityView')->name('location.city_view');
+    Route::get('location/city/delete/{id}', 'LocationController@cityDelete')->name('location.delete');
     Route::resource('location', 'LocationController');
     Route::post('location/update','LocationController@update');
     Route::get('create-audit-cycle', 'AuditController@createCycle')->name('createCycle');
